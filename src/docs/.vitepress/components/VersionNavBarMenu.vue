@@ -12,17 +12,17 @@ const currentVersion = ref(sessionStorage.getItem('version') ?? "v2");
 const versionNavbarItem = {
     items: [
         {
-            text: 'v1',
+            text: 'v1（基于 Spring Boot 3.x 生态）',
             link: '/v1',
         },
         {
-            text: 'v2',
+            text: 'v2（基于 Spring Boot 4.x 生态）',
             link: '/v2',
         }
     ]
 }
 
-const dependenciesNavbarItemText = ref(`依赖管理 v${import.meta.env.VITE_V2_DEPENDENCIES_VERSION}`)
+const dependenciesNavbarItemText = ref(`依赖管理 ${import.meta.env.VITE_V2_DEPENDENCIES_VERSION}`)
 const dependenciesNavbarItem = ref({
     items: [
         {
@@ -40,7 +40,7 @@ const dependenciesNavbarItem = ref({
     ]
 })
 
-const commonsNavbarItemText = ref(`工具库 v${import.meta.env.VITE_V2_COMMONS_VERSION}`)
+const commonsNavbarItemText = ref(`工具库 ${import.meta.env.VITE_V2_COMMONS_VERSION}`)
 const commonsNavbarItem = ref({
     items: [
         {
@@ -58,7 +58,7 @@ const commonsNavbarItem = ref({
     ]
 })
 
-const frameworkNavbarItemText = ref(`Framework v${import.meta.env.VITE_V2_FRAMEWORK_VERSION}`)
+const frameworkNavbarItemText = ref(`Framework ${import.meta.env.VITE_V2_FRAMEWORK_VERSION}`)
 const frameworkNavbarItem = ref({
     items: [
         {
@@ -76,7 +76,7 @@ const frameworkNavbarItem = ref({
     ]
 })
 
-const starterNavbarItemText = ref(`Framework Starter v${import.meta.env.VITE_V2_FRAMEWORK_STARTER_VERSION}`)
+const starterNavbarItemText = ref(`Framework Starter ${import.meta.env.VITE_V2_FRAMEWORK_STARTER_VERSION}`)
 const starterNavbarItem = ref({
     items: [
         {
@@ -102,7 +102,7 @@ router.onBeforeRouteChange = (to) => {
             currentVersion.value = 'v2'
             sessionStorage.setItem('version', currentVersion.value)
 
-            dependenciesNavbarItemText.value = `依赖管理 v${import.meta.env.VITE_V2_DEPENDENCIES_VERSION}`
+            dependenciesNavbarItemText.value = `依赖管理 ${import.meta.env.VITE_V2_DEPENDENCIES_VERSION}`
             dependenciesNavbarItem.value = {
                 text: '依赖管理',
                 items: [
@@ -121,7 +121,7 @@ router.onBeforeRouteChange = (to) => {
                 ]
             }
 
-            commonsNavbarItemText.value = `工具库 v${import.meta.env.VITE_V2_COMMONS_VERSION}`
+            commonsNavbarItemText.value = `工具库 ${import.meta.env.VITE_V2_COMMONS_VERSION}`
             commonsNavbarItem.value = {
                 items: [
                     {
@@ -139,7 +139,7 @@ router.onBeforeRouteChange = (to) => {
                 ]
             }
 
-            frameworkNavbarItemText.value = `Framework v${import.meta.env.VITE_V2_FRAMEWORK_VERSION}`
+            frameworkNavbarItemText.value = `Framework ${import.meta.env.VITE_V2_FRAMEWORK_VERSION}`
             frameworkNavbarItem.value = {
                 items: [
                     {
@@ -157,7 +157,7 @@ router.onBeforeRouteChange = (to) => {
                 ]
             }
 
-            starterNavbarItemText.value = `Framework Starter v${import.meta.env.VITE_V2_FRAMEWORK_STARTER_VERSION}`
+            starterNavbarItemText.value = `Framework Starter ${import.meta.env.VITE_V2_FRAMEWORK_STARTER_VERSION}`
             starterNavbarItem.value = {
                 items: [
                     {
@@ -181,7 +181,7 @@ router.onBeforeRouteChange = (to) => {
             currentVersion.value = 'v1'
             sessionStorage.setItem('version', currentVersion.value)
 
-            dependenciesNavbarItemText.value = `依赖管理 v${import.meta.env.VITE_V1_DEPENDENCIES_VERSION}`
+            dependenciesNavbarItemText.value = `依赖管理 ${import.meta.env.VITE_V1_DEPENDENCIES_VERSION}`
             dependenciesNavbarItem.value = {
                 items: [
                     {
@@ -199,7 +199,7 @@ router.onBeforeRouteChange = (to) => {
                 ]
             }
 
-            commonsNavbarItemText.value = `工具库 v${import.meta.env.VITE_V1_COMMONS_VERSION}`
+            commonsNavbarItemText.value = `工具库 ${import.meta.env.VITE_V1_COMMONS_VERSION}`
             commonsNavbarItem.value = {
                 items: [
                     {
@@ -217,7 +217,7 @@ router.onBeforeRouteChange = (to) => {
                 ]
             }
 
-            frameworkNavbarItemText.value = `Framework v${import.meta.env.VITE_V1_FRAMEWORK_VERSION}`
+            frameworkNavbarItemText.value = `Framework ${import.meta.env.VITE_V1_FRAMEWORK_VERSION}`
             frameworkNavbarItem.value = {
                 items: [
                     {
@@ -235,7 +235,7 @@ router.onBeforeRouteChange = (to) => {
                 ]
             }
 
-            starterNavbarItemText.value = `Framework Starter v${import.meta.env.VITE_V1_FRAMEWORK_STARTER_VERSION}`
+            starterNavbarItemText.value = `Framework Starter ${import.meta.env.VITE_V1_FRAMEWORK_STARTER_VERSION}`
             starterNavbarItem.value = {
                 items: [
                     {

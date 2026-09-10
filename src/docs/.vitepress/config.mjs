@@ -61,7 +61,7 @@ export default defineConfig({
             next: '下一篇'
         },
         footer: {
-            message: '基于 Apache 许可发布',
+            message: '基于 Apache 2.0 许可发布',
             copyright: '版权所有 © 2026-至今 pangju666'
         }
     }
