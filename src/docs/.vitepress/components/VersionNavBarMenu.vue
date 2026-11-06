@@ -31,7 +31,7 @@ const dependenciesNavbarItem = ref({
         },
         {
             text: '更新日志',
-            link: 'https://github.com/pangju666/java-pangju-dependencies/blob/master/CHANGELOG.md',
+            link: '/dependencies/change-log',
         },
         {
             text: 'Github',
@@ -49,7 +49,7 @@ const commonsNavbarItem = ref({
         },
         {
             text: '更新日志',
-            link: 'https://github.com/pangju666/java-pangju-commons/blob/master/CHANGELOG.md',
+            link: '/commons/change-log',
         },
         {
             text: 'Github',
@@ -67,7 +67,7 @@ const frameworkNavbarItem = ref({
         },
         {
             text: '更新日志',
-            link: 'https://github.com/pangju666/java-pangju-framework/blob/master/CHANGELOG.md',
+            link: '/framework/change-log',
         },
         {
             text: 'Github',
@@ -85,7 +85,7 @@ const starterNavbarItem = ref({
         },
         {
             text: '更新日志',
-            link: 'https://github.com/pangju666/java-pangju-framework-spring-boot-starter/blob/master/CHANGELOG.md',
+            link: '/starter/change-log',
         },
         {
             text: 'Github',
@@ -103,77 +103,16 @@ router.onBeforeRouteChange = (to) => {
             sessionStorage.setItem('version', currentVersion.value)
 
             dependenciesNavbarItemText.value = `依赖管理 ${import.meta.env.VITE_V2_DEPENDENCIES_VERSION}`
-            dependenciesNavbarItem.value = {
-                text: '依赖管理',
-                items: [
-                    {
-                        text: '指南',
-                        link: '/dependencies/getting-started',
-                    },
-                    {
-                        text: '更新日志',
-                        link: 'https://github.com/pangju666/java-pangju-dependencies/blob/master/CHANGELOG.md',
-                    },
-                    {
-                        text: 'Github',
-                        link: 'https://github.com/pangju666/java-pangju-dependencies',
-                    },
-                ]
-            }
+            dependenciesNavbarItem.value.items[2].link = 'https://github.com/pangju666/java-pangju-dependencies'
 
             commonsNavbarItemText.value = `工具库 ${import.meta.env.VITE_V2_COMMONS_VERSION}`
-            commonsNavbarItem.value = {
-                items: [
-                    {
-                        text: '指南',
-                        link: '/commons/getting-started',
-                    },
-                    {
-                        text: '更新日志',
-                        link: 'https://github.com/pangju666/java-pangju-commons/blob/master/CHANGELOG.md',
-                    },
-                    {
-                        text: 'Github',
-                        link: 'https://github.com/pangju666/java-pangju-commons',
-                    },
-                ]
-            }
+            commonsNavbarItem.value.items[2].link = 'https://github.com/pangju666/java-pangju-commons'
 
             frameworkNavbarItemText.value = `Framework ${import.meta.env.VITE_V2_FRAMEWORK_VERSION}`
-            frameworkNavbarItem.value = {
-                items: [
-                    {
-                        text: '指南',
-                        link: '/framework/getting-started',
-                    },
-                    {
-                        text: '更新日志',
-                        link: 'https://github.com/pangju666/java-pangju-framework/blob/master/CHANGELOG.md',
-                    },
-                    {
-                        text: 'Github',
-                        link: 'https://github.com/pangju666/java-pangju-framework',
-                    },
-                ]
-            }
+            frameworkNavbarItem.value.items[2].link = 'https://github.com/pangju666/java-pangju-framework'
 
             starterNavbarItemText.value = `Framework Starter ${import.meta.env.VITE_V2_FRAMEWORK_STARTER_VERSION}`
-            starterNavbarItem.value = {
-                items: [
-                    {
-                        text: '指南',
-                        link: '/starter/getting-started',
-                    },
-                    {
-                        text: '更新日志',
-                        link: 'https://github.com/pangju666/java-pangju-framework-spring-boot-starter/blob/master/CHANGELOG.md',
-                    },
-                    {
-                        text: 'Github',
-                        link: 'https://github.com/pangju666/java-pangju-framework-spring-boot-starter',
-                    },
-                ]
-            }
+            starterNavbarItem.value.items[2].link = 'https://github.com/pangju666/java-pangju-framework-spring-boot-starter'
 
             router.go(`${site.value.base}index`)
             return false
@@ -182,76 +121,16 @@ router.onBeforeRouteChange = (to) => {
             sessionStorage.setItem('version', currentVersion.value)
 
             dependenciesNavbarItemText.value = `依赖管理 ${import.meta.env.VITE_V1_DEPENDENCIES_VERSION}`
-            dependenciesNavbarItem.value = {
-                items: [
-                    {
-                        text: '指南',
-                        link: '/dependencies/getting-started',
-                    },
-                    {
-                        text: '更新日志',
-                        link: 'https://github.com/pangju666/java-pangju-dependencies/blob/v1/CHANGELOG.md',
-                    },
-                    {
-                        text: 'Github',
-                        link: 'https://github.com/pangju666/java-pangju-dependencies/tree/v1',
-                    },
-                ]
-            }
+            dependenciesNavbarItem.value.items[2].link = 'https://github.com/pangju666/java-pangju-dependencies/tree/v1'
 
             commonsNavbarItemText.value = `工具库 ${import.meta.env.VITE_V1_COMMONS_VERSION}`
-            commonsNavbarItem.value = {
-                items: [
-                    {
-                        text: '指南',
-                        link: '/commons/getting-started',
-                    },
-                    {
-                        text: '更新日志',
-                        link: 'https://github.com/pangju666/java-pangju-commons/blob/v1/CHANGELOG.md',
-                    },
-                    {
-                        text: 'Github',
-                        link: 'https://github.com/pangju666/java-pangju-commons/tree/v1',
-                    },
-                ]
-            }
+            commonsNavbarItem.value.items[2].link = 'https://github.com/pangju666/java-pangju-commons/tree/v1'
 
             frameworkNavbarItemText.value = `Framework ${import.meta.env.VITE_V1_FRAMEWORK_VERSION}`
-            frameworkNavbarItem.value = {
-                items: [
-                    {
-                        text: '指南',
-                        link: '/framework/getting-started',
-                    },
-                    {
-                        text: '更新日志',
-                        link: 'https://github.com/pangju666/java-pangju-framework/blob/v1/CHANGELOG.md',
-                    },
-                    {
-                        text: 'Github',
-                        link: 'https://github.com/pangju666/java-pangju-framework/tree/v1',
-                    },
-                ]
-            }
+            frameworkNavbarItem.value.items[2].link = 'https://github.com/pangju666/java-pangju-framework/tree/v1'
 
             starterNavbarItemText.value = `Framework Starter ${import.meta.env.VITE_V1_FRAMEWORK_STARTER_VERSION}`
-            starterNavbarItem.value = {
-                items: [
-                    {
-                        text: '指南',
-                        link: '/starter/getting-started',
-                    },
-                    {
-                        text: '更新日志',
-                        link: 'https://github.com/pangju666/java-pangju-framework-spring-boot-starter/blob/v1/CHANGELOG.md',
-                    },
-                    {
-                        text: 'Github',
-                        link: 'https://github.com/pangju666/java-pangju-framework-spring-boot-starter/tree/v1',
-                    },
-                ]
-            }
+            starterNavbarItem.value.items[2].link = 'https://github.com/pangju666/java-pangju-framework-spring-boot-starter/tree/v1'
 
             router.go(`${site.value.base}index`)
             return false
@@ -280,7 +159,7 @@ router.onBeforeRouteChange = (to) => {
         <VersionMenuGroup :item="commonsNavbarItem" :button="commonsNavbarItemText"/>
         <VersionMenuGroup :item="frameworkNavbarItem" :button="frameworkNavbarItemText"/>
         <VersionMenuGroup :item="starterNavbarItem" :button="starterNavbarItemText"/>
-        <VersionMenuGroup :item="versionNavbarItem" button="切换版本" />
+        <VersionMenuGroup :item="versionNavbarItem" button="切换版本"/>
 
         <template v-for="item in theme.nav" :key="JSON.stringify(item)">
             <VPNavBarMenuLink v-if="'link' in item" :item="item"/>

@@ -2,6 +2,15 @@
 layout: doc
 ---
 
+<script setup>
+const javacppVersion = import.meta.env.VITE_JAVA_CPP_VERSION;
+const ffmpegVersion = import.meta.env.VITE_FFMPEG_VERSION;
+const opencvVersion = import.meta.env.VITE_OPENCV_VERSION;
+const openblasVersion = import.meta.env.VITE_OPENBLAS_VERSION;
+const tesseractVersion = import.meta.env.VITE_TESSERACT_VERSION;
+const leptonicaVersion = import.meta.env.VITE_LEPTONICA_VERSION;
+</script>
+
 # 依赖管理
 
 ## 类型转换
@@ -200,6 +209,13 @@ zero-allocation-hashing 是一个 高性能、无垃圾回收（GC-free）、零
     <artifactId>xz</artifactId>
 </dependency>
 ```
+**Tips:** **zstd**格式需要第三方包支持
+```xml
+<dependency>
+    <groupId>com.github.luben</groupId>
+    <artifactId>zstd-jni</artifactId>
+</dependency>
+```
 评价：主流支持zip和7z，rar不支持
 
 ### [zip4j](https://github.com/srikanth-lingala/zip4j)
@@ -211,15 +227,6 @@ zero-allocation-hashing 是一个 高性能、无垃圾回收（GC-free）、零
 </dependency>
 ```
 评价：如果需要加密解密zip的话用这个
-
-### [lz4-java](https://github.com/lz4/lz4-java )
-**lz4-java** 是一个高性能的 LZ4 压缩算法 的 Java 实现，由 Apache 开源（原为 lz4/lz4-java 项目），广泛用于需要 低延迟、高吞吐压缩/解压 的场景（如 Kafka、Netty、Redis、日志系统等）。
-```xml
-<dependency>
-    <groupId>at.yawk.lz4</groupId>
-    <artifactId>lz4-java</artifactId>
-</dependency>
-```
 
 ## 文件
 
@@ -487,16 +494,6 @@ zero-allocation-hashing 是一个 高性能、无垃圾回收（GC-free）、零
 ```
 评价：功能挺丰富的，例如：生成缩略图、灰度化、调整亮度、调整对比度等
 
-### [boofcv](https://boofcv.org)
-**BoofCV**（Boof Computer Vision）是一个功能强大、完全用 Java 编写的开源计算机视觉库，专为实时处理和嵌入式系统设计。它由 Peter Abeles 开发并维护，目标是提供一个无需依赖本地代码（如 C/C++ 库）的纯 Java 计算机视觉解决方案，适用于 Android、桌面应用和服务器端图像处理。
-```xml
-<dependency>
-    <groupId>org.boofcv</groupId>
-    <artifactId>boofcv-core</artifactId>
-    <version>${boofcv.version}</version>
-</dependency>
-```
-
 ### [jai-imageio-core](https://github.com/jai-imageio/jai-imageio-core)
 **JAI Image I/O Tools（jai-imageio-core）** 是一个用于处理图像输入输出的 Java 库，它是 Java Advanced Imaging (JAI) API 的一部分。该库扩展了标准的 Java Image I/O 框架，提供了对更多图像格式的支持，并增强了图像处理功能。它特别适用于需要读取、写入和处理多种图像格式的应用程序。
 ```xml
@@ -523,6 +520,257 @@ zero-allocation-hashing 是一个 高性能、无垃圾回收（GC-free）、零
 </dependency>
 ```
 评价：主要是结合apache-pdbox用，没有单独使用过
+
+### [OpenCV](https://docs.opencv.org)
+**OpenCV** 是全球最主流的开源计算机视觉库，2000 年由 Intel 发起，现由 Open Source Vision Foundation 维护，采用 Apache 2.0 / BSD 协议。610 它的核心用 C++ 编写，提供 C++、Python、Java、MATLAB 等接口，支持 Windows、Linux、macOS、Android、iOS，包含 2500+ 优化算法，覆盖图像处理、视频分析、3D 视觉、目标检测、人脸识别、SLAM 等能力。
+
+> [!danger]
+> 我当前引入的这个版本只在**windows**下的**JDK25**测试成功了，**JDK21**和**JDK17**都会报错。
+>
+> 如果报错的话，要么更换**JDK**版本，要么将**OpenCv**降级为**4.10.0-1.5.11**，将**OpenBLAS**降级为**0.3.28-1.5.11**，如果引入了**FFmpeg**或**Tesseract**，也需要降级为**JavaCpp 1.5.11**对应的版本，保持**JavaCpp**版本一致。
+
+**Tips:** **CPU**和**GPU**两种实现版本引入一种即可。
+```xml-vue
+<!-- 引入单平台实现 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>opencv</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以省略 -->
+    <version>{{ opencvVersion }}-{{ javacppVersion }}</version>
+</dependency>
+
+<!-- CPU版本可选的平台标识 -->
+<!-- windows: windows-x86_64 -->
+<!-- macosx: macosx-arm64 macosx-x86_64 -->
+<!-- linux: linux-arm64 linux-x86_64 -->
+<!-- ios: ios-arm64 ios-x86_64 -->
+<!-- android: android-arm64 android-x86_64 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>opencv</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以替换为：${opencv.version}-${javacpp.version} -->
+    <version>{{ opencvVersion }}-{{ javacppVersion }}</version>
+    <classifier>windows-x86_64</classifier>
+</dependency>
+
+<!-- GPU版本可选的平台标识 -->
+<!-- windows: windows-x86_64-gpu -->
+<!-- linux: linux-arm64-gpu linux-x86_64-gpu -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>opencv</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以替换为：${opencv.version}-${javacpp.version} -->
+    <version>{{ opencvVersion }}-{{ javacppVersion }}</version>
+    <classifier>windows-x86_64-gpu</classifier>
+</dependency>
+
+<!-- 这两个包的 classifier 需要和上边的包一致 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>javacpp</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以替换为：${javacpp.version} -->
+    <version>{{ javacppVersion }}</version>
+    <classifier>windows-x86_64</classifier>
+</dependency>
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>openblas</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以替换为：${openblas.version}-${javacpp.version} -->
+    <version>{{ openblasVersion }}-{{ javacppVersion }}</version>
+    <classifier>windows-x86_64</classifier>
+</dependency>
+    
+<!-- 引入全平台实现 -->
+<!-- CPU版本 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>opencv-platform</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以省略 -->
+    <version>{{ opencvVersion }}-{{ javacppVersion }}</version>
+</dependency>
+<!-- GPU版本 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>opencv-platform-gpu</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以省略 -->
+    <version>{{ opencvVersion }}-{{ javacppVersion }}</version>
+</dependency>
+```
+评价：一般的图像处理使用[**thumbnailator**](#thumbnailator)或[**twelvemonkeys**](#twelvemonkeys)即可，需要追求处理速度或使用这两个库无法实现的图像任务再考虑**OpenCV**
+
+### [Tesseract](https://tesseract-ocr.github.io/)
+**Tesseract** 是一款开源、离线、纯 CPU 友好的 OCR 引擎，最初由惠普实验室在 1980 年代研发，2005 年开源，2006–2018 年由 Google 主导开发，目前由社区维护，采用 Apache License 2.0。
+
+**Tips:** [官方训练集仓库](https://github.com/tesseract-ocr/tessdata)，**chi_sim**是简体中文数据集，**chi_sim_vert**是简体中文竖向文字数据集。
+```xml-vue
+<!-- 引入单平台实现 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>tesseract</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以省略 -->
+    <version>{{ tesseractVersion }}-{{ javacppVersion }}</version>
+</dependency>
+
+<!-- 可选的平台标识 -->
+<!-- windows: windows-x86_64 -->
+<!-- macosx: macosx-arm64 macosx-x86_64 -->
+<!-- linux: linux-arm64 linux-x86_64 -->
+<!-- android: android-arm64 android-x86_64 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>tesseract</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以替换为：${tesseract.version}-${javacpp.version} -->
+    <version>{{ tesseractVersion }}-{{ javacppVersion }}</version>
+    <classifier>windows-x86_64</classifier>
+</dependency>
+<!-- 这两个包的 classifier 需要和上边的包一致 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>javacpp</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以替换为：${javacpp.version} -->
+    <version>{{ javacppVersion }}</version>
+    <classifier>windows-x86_64</classifier>
+</dependency>
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>leptonica</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以替换为：${leptonica.version}-${javacpp.version} -->
+    <version>{{ leptonicaVersion }}-{{ javacppVersion }}</version>
+    <classifier>windows-x86_64</classifier>
+</dependency>
+    
+<!-- 引入全平台实现 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>tesseract-platform</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以省略 -->
+    <version>{{ tesseractVersion }}-{{ javacppVersion }}</version>
+</dependency>
+```
+评价：使用官方的训练集的情况下，识别正确率挺感人的，属于能识别，但是你别管识别出来是什么
+
+## 音视频
+### [FFmpeg](https://ffmpeg.org/documentation.html)
+**FFmpeg** 是全球最主流的开源多媒体处理框架，由 Fabrice Bellard 于 2000 年发起，采用 LGPL/GPL 双许可证，覆盖 Windows、Linux、macOS、Android、iOS。
+
+**Tips:** FFmpeg版本不同的话，有些滤镜可能不支持，最好在官方文档先确定好存在哪些滤镜再使用。
+
+**Tips:** 部分编码方式，比如：**H265**，需要引入GPL包。
+
+```xml-vue
+<!-- javacv 把FFmpeg接口封装的挺不错的，如果你想直接使用FFmpeg的原生接口，可以不引入这个包 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>javacv</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以省略 -->
+    <version>{{ javacppVersion }}</version>
+    <!-- 这些包和 FFmpeg 没关系，可以排除掉 -->
+    <exclusions>
+        <exclusion>
+            <artifactId>artoolkitplus</artifactId>
+            <groupId>org.bytedeco</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>flycapture</artifactId>
+            <groupId>org.bytedeco</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>javafx-graphics</artifactId>
+            <groupId>org.openjfx</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>leptonica</artifactId>
+            <groupId>org.bytedeco</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>videoinput</artifactId>
+            <groupId>org.bytedeco</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>tesseract</artifactId>
+            <groupId>org.bytedeco</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>openblas</artifactId>
+            <groupId>org.bytedeco</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>libdc1394</artifactId>
+            <groupId>org.bytedeco</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>libfreenect</artifactId>
+            <groupId>org.bytedeco</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>libfreenect2</artifactId>
+            <groupId>org.bytedeco</groupId>
+        </exclusion>
+        <exclusion>
+        <artifactId>librealsense</artifactId>
+            <groupId>org.bytedeco</groupId>
+        </exclusion>
+        <exclusion>
+            <artifactId>librealsense2</artifactId>
+            <groupId>org.bytedeco</groupId>
+        </exclusion>
+    </exclusions>
+</dependency>
+
+<!-- 引入单平台实现 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>ffmpeg</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以省略 -->
+    <version>{{ ffmpegVersion }}-{{ javacppVersion }}</version>
+</dependency>
+
+<!-- 可选的平台标识 -->
+<!-- windows: windows-x86_64 windows-x86_64-gpl -->
+<!-- macosx: macosx-arm64 macosx-x86_64 macosx-arm64-gpl macosx-x86_64-gpl -->
+<!-- linux: linux-arm64 linux-x86_64 linux-arm64-gpl linux-x86_64-gpl -->
+<!-- android: android-arm64 android-x86_64 android-arm64-gpl android-x86_64-gpl -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>ffmpeg</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以替换为：${ffmpeg.version}-${javacpp.version} -->
+    <version>{{ ffmpegVersion }}-{{ javacppVersion }}</version>
+    <classifier>windows-x86_64</classifier>
+</dependency>
+<!-- 如果需要使用H265编码，需要引入此包 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>ffmpeg</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以替换为：${ffmpeg.version}-${javacpp.version} -->
+    <version>{{ ffmpegVersion }}-{{ javacppVersion }}</version>
+    <classifier>windows-x86_64-gpl</classifier>
+</dependency>
+    
+<!-- 这个包的 classifier 需要和上边的包一致 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>javacpp</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以替换为：${javacpp.version} -->
+    <version>{{ javacppVersion }}</version>
+    <classifier>windows-x86_64</classifier>
+</dependency>
+    
+<!-- 引入全平台实现 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>ffmpeg-platform</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以省略 -->
+    <version>{{ ffmpegVersion }}-{{ javacppVersion }}</version>
+</dependency>
+<!-- 如果需要使用H265编码，需要引入此包 -->
+<dependency>
+    <groupId>org.bytedeco</groupId>
+    <artifactId>ffmpeg-platform-gpl</artifactId>
+    <!-- 如果不需要自定义版本号，则这行可以省略 -->
+    <version>{{ ffmpegVersion }}-{{ javacppVersion }}</version>
+</dependency>
+```
+评价：在Java平台，我反正是没找到比FFmpeg处理音视频效果更好的库了，强烈推荐。
 
 ## XML
 ### [dom4j](https://dom4j.github.io/)
@@ -688,16 +936,6 @@ outagedetectioninterval=2
 
 评价：主要用来在开发和测试环境打印**SQL**用的，挺方便的，比**mybatis**的日志强多了
 
-### [spring-vault](https://projects.spring.io/spring-vault/spring-vault-core/)
-`Spring Vault Core` 是 Spring 提供的一个库，用于简化与 HashiCorp Vault 的集成。HashiCorp Vault 是一个用于安全访问敏感数据（如 API 密钥、密码、证书等）的工具，它提供了统一的接口来管理、存储和访问这些敏感信息。通过使用 Spring Vault，开发者可以在 Spring 应用中方便地与 Vault 进行交互，并安全地获取和使用敏感数据。
-```xml
-<dependency>
-    <groupId>org.springframework.vault</groupId>
-    <artifactId>spring-vault-core</artifactId>
-</dependency>
-```
-评价：Vault可以当作配置中心用来存放一些敏感的配置
-
 ## 其他
 
 ### [commons-configuration2](https://commons.apache.org/proper/commons-configuration/userguide/quick_start.html)
@@ -757,4 +995,28 @@ Spring Boot项目导入：
 </dependency>
 ```
 
+### [testcontainers](https://java.testcontainers.org/ )
+`Testcontainers` 是一个开源测试库，用于在集成测试中自动启动、配置并销毁 Docker 容器，让测试直接依赖真实的数据库、消息队列、浏览器等服务，而不是 Mock 或内存实现。
+```xml
+<!-- 引入 MySQL 测试容器示例 -->
+<dependency>
+    <groupId>org.testcontainers</groupId>
+    <artifactId>testcontainers-mysql</artifactId>
+    <scope>test</scope>
+</dependency>
 
+<!-- Junit5 需要引入这个包 -->
+<dependency>
+    <groupId>org.testcontainers</groupId>
+    <artifactId>testcontainers-junit-jupiter</artifactId>
+    <scope>test</scope>
+</dependency>
+
+<!-- Spock 需要引入这个包 -->
+<dependency>
+    <groupId>org.testcontainers</groupId>
+    <artifactId>testcontainers-spock</artifactId>
+    <scope>test</scope>
+</dependency>
+```
+评价：个人感觉小型项目没必要用这个测试，适合大型项目或者微服务项目测试

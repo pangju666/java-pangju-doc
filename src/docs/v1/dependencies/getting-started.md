@@ -7,10 +7,15 @@ const springBootVersion = import.meta.env.VITE_V1_SPRING_BOOT_VERSION;
 const dependenciesVersion = import.meta.env.VITE_V1_DEPENDENCIES_VERSION;
 </script>
 
-# 简介
-基于spring-boot-dependencies {{ springBootVersion }}，包含了常用的各种库的依赖管理和插件管理
+## 简介
+统一管理 Java 项目依赖版本的 BOM，涵盖数据库、安全、文档、图像处理、计算机视觉等多场景常用库，解决版本冲突，简化配置。
+
+### Spring Boot 版本
+spring-boot-dependencies {{ springBootVersion }}
 
 ## 如何使用
+
+Spring Boot 项目建议使用 import 引入，然后设置 parent
 
 ### parent引入
 ```xml-vue
@@ -23,8 +28,15 @@ const dependenciesVersion = import.meta.env.VITE_V1_DEPENDENCIES_VERSION;
 ```
 
 ### import引入
-建议在非Spring Boot项目使用这种方式导入
 ```xml-vue
+<!-- Spring Boot 项目需要引入 spring-boot-starter-parent -->
+<parent>
+    <groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-parent</artifactId>
+	<version>{{ springBootVersion }}</version>
+	<relativePath/>
+</parent>
+
 <dependencyManagement>
     <dependencies>
         <dependency>
